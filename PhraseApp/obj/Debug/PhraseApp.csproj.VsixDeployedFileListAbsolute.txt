@@ -1,0 +1,6 @@
+C:\Users\kevin\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\PhraseApp\PhraseApp\1.0\\PhraseApp.dll
+C:\Users\kevin\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\PhraseApp\PhraseApp\1.0\\PhraseApp.pkgdef
+C:\Users\kevin\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\PhraseApp\PhraseApp\1.0\\extension.vsixmanifest
+C:\Users\kevin\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\PhraseApp\PhraseApp\1.0\\PhraseApp.pdb
+C:\Users\kevin\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\PhraseApp\PhraseApp\1.0\\Newtonsoft.Json.dll
+C:\Users\kevin\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\PhraseApp\PhraseApp\1.0\\RestSharp.dll
