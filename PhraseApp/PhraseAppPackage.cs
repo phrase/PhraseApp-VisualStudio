@@ -170,6 +170,7 @@ namespace PhraseApp.PhraseApp
         // Build RestClient with PraseApp API BaseURL
         RestClient buildClient() {
             var client = new RestClient(this.baseURL);
+            client.UserAgent = "PhraseApp VisualStudio v1.0";
             return client;
         }
 
