@@ -84,6 +84,7 @@ namespace PhraseApp
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.EnvironmentVariables["PHRASEAPP_USER_AGENT"] = "VisualStudio";
             process.Start();
             string output = process.StandardOutput.ReadToEnd();
             string err = process.StandardError.ReadToEnd();
