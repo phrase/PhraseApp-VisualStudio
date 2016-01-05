@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using System.Text.RegularExpressions;
 
 namespace PhraseApp
 {
     class Cli
     {
-        private String CliToolPath;
-        private String solutionDir;
+        private String CliToolPath = "";
+        private String solutionDir = "";
 
         public Cli(String CliToolPath, String solutionDir)
         {
@@ -20,40 +23,63 @@ namespace PhraseApp
             this.solutionDir = solutionDir;
         }
 
+        public String ConfigFilePath()
+        {
+            return this.solutionDir + "/" + Path.GetFileName(this.solutionDir) + "/.phraseapp.yml";
+        }
+
         public Boolean ConfigFileExists()
         {
-            //
-            return true;
+            return File.Exists(this.ConfigFilePath());
         }
 
-        public Boolean ClientValid()
+        public String ProjectIdFromConfig()
         {
-            return this.Info().Contains("PhraseApp");
+            String config = File.ReadAllText(this.ConfigFilePath());
+            Regex r = new Regex("project_id: (\\w+)");
+            Match m = r.Match(config);
+            return m.Groups[1].Captures[0].Value.ToString();
         }
 
-        public String Info()
+        public void Info()
         {
-            return this.Exec("info");
+            this.Exec("info");
         }
 
-        public String Push()
+        public void LocaleUpload(String filePath, String localeCode)
         {
-            return this.Exec("push");
+            this.Exec("upload create " + this.ProjectIdFromConfig() + " --file-format windows8_resource --file " + filePath + " --locale-id " + localeCode);
         }
 
-        public String Pull()
+        public void LocaleDownload(String filePath, String localeCode)
         {
-            return this.Exec("pull");
+            String fileContent = this.Exec("locale download " + this.ProjectIdFromConfig() + " " + localeCode + " --file-format windows8_resource");
+            File.WriteAllText(filePath, fileContent);
+        }
+
+        public void Push()
+        {
+            this.Exec("push");
+        }
+
+        public void Pull()
+        {
+            this.Exec("pull");
         }
 
         public String Exec(String action)
         {
-            String projectDir = this.solutionDir + "/" + Path.GetFileName(this.solutionDir);
 
+            if(!this.ConfigFileExists())
+            {
+                MessageBox.Show("Could not find a .phraseapp.yml configuration file");
+            }
+
+            String dir = Path.GetFileName(this.solutionDir);
             Process process = new Process();
             process.StartInfo.FileName = this.CliToolPath;
             process.StartInfo.Arguments = action;
-            process.StartInfo.WorkingDirectory = projectDir;
+            process.StartInfo.WorkingDirectory = this.solutionDir+"/"+dir;
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
@@ -62,7 +88,20 @@ namespace PhraseApp
             string output = process.StandardOutput.ReadToEnd();
             string err = process.StandardError.ReadToEnd();
             process.WaitForExit();
+
+            if(err != ""){
+                output = err;
+            }
+
+            var outputWindow = Package.GetGlobalService(typeof(SVsOutputWindow)) as IVsOutputWindow;
+            var paneGuid = Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid;
+            IVsOutputWindowPane pane;
+            outputWindow.CreatePane(paneGuid, "PhraseApp", 1, 0);
+            outputWindow.GetPane(paneGuid, out pane);
+            pane.OutputString(output);
+
             return output;
+
         }
 
     }

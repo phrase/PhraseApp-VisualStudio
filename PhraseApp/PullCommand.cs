@@ -51,9 +51,17 @@ namespace PhraseApp
             if (commandService != null)
             {
                 var menuCommandID = new CommandID(CommandSet, CommandId);
-                var menuItem = new MenuCommand(this.MenuItemCallback, menuCommandID);
+                var menuItem = new OleMenuCommand(this.MenuItemCallback, menuCommandID);
+                menuItem.BeforeQueryStatus += menuItemBefore_QueryStatus;
                 commandService.AddCommand(menuItem);
             }
+        }
+
+        void menuItemBefore_QueryStatus(object sender, EventArgs e)
+        {
+            OleMenuCommand menuItem = sender as OleMenuCommand;
+            menuItem.Enabled = true;
+            menuItem.Visible = true;
         }
 
         /// <summary>
@@ -99,14 +107,7 @@ namespace PhraseApp
             var opts = this.package.GetDialogPage(typeof(CliToolOtions)) as CliToolOtions;
 
             Cli cli = new Cli(opts.CliToolPath, solutionDir);
-            String output = cli.Pull();
-
-            var outputWindow = Package.GetGlobalService(typeof(SVsOutputWindow)) as IVsOutputWindow;
-            var paneGuid = Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid;
-            IVsOutputWindowPane pane;
-            outputWindow.CreatePane(paneGuid, "PhraseApp", 1, 0);
-            outputWindow.GetPane(paneGuid, out pane);
-            pane.OutputString(output);
+            cli.Pull();
         }
     }
 }

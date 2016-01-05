@@ -9,6 +9,10 @@ using System.ComponentModel.Design;
 using System.Globalization;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio;
+using System.IO;
+using System.Windows.Forms;
+using EnvDTE;
 
 namespace PhraseApp
 {
@@ -93,17 +97,16 @@ namespace PhraseApp
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
-            string title = "UploadFile";
+            DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
 
-            // Show a message box to prove we were here
-            VsShellUtilities.ShowMessageBox(
-                this.ServiceProvider,
-                message,
-                title,
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            String filePath =  dte.SelectedItems.Item(1).ProjectItem.FileNames[0];
+            String localeCode = Path.GetFileName(Path.GetDirectoryName(filePath));
+
+            String solutionDir = System.IO.Path.GetDirectoryName(dte.Solution.FullName);
+            var opts = this.package.GetDialogPage(typeof(CliToolOtions)) as CliToolOtions;
+
+            Cli cli = new Cli(opts.CliToolPath, solutionDir);
+            cli.LocaleUpload(filePath, localeCode);
         }
     }
 }

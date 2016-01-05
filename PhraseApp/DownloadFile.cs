@@ -9,6 +9,8 @@ using System.ComponentModel.Design;
 using System.Globalization;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using EnvDTE;
+using System.IO;
 
 namespace PhraseApp
 {
@@ -93,17 +95,16 @@ namespace PhraseApp
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
-            string title = "DownloadFile";
+            DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
 
-            // Show a message box to prove we were here
-            VsShellUtilities.ShowMessageBox(
-                this.ServiceProvider,
-                message,
-                title,
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            String filePath = dte.SelectedItems.Item(1).ProjectItem.FileNames[0];
+            String localeCode = Path.GetFileName(Path.GetDirectoryName(filePath));
+
+            String solutionDir = System.IO.Path.GetDirectoryName(dte.Solution.FullName);
+            var opts = this.package.GetDialogPage(typeof(CliToolOtions)) as CliToolOtions;
+
+            Cli cli = new Cli(opts.CliToolPath, solutionDir);
+            cli.LocaleDownload(filePath, localeCode);
         }
     }
 }
