@@ -101,10 +101,10 @@
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
       <Bitmap guid="guidImages" href="Resources\PullCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
-      <Bitmap guid="guidImages1" href="\\psf\home\documents\visual studio 2015\Projects\PhraseApp\PhraseApp\Resources\PushCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
-      <Bitmap guid="guidImages2" href="\\psf\home\documents\visual studio 2015\Projects\PhraseApp\PhraseApp\Resources\TranslationCenterCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
-      <Bitmap guid="guidImages3" href="\\psf\Home\Documents\Visual Studio 2015\Projects\PhraseApp\PhraseApp\Resources\UploadFile.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
-      <Bitmap guid="guidImages4" href="\\psf\Home\Documents\Visual Studio 2015\Projects\PhraseApp\PhraseApp\Resources\DownloadFile.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
+      <Bitmap guid="guidImages1" href="Resources\PushCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
+      <Bitmap guid="guidImages2" href="Resources\TranslationCenterCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
+      <Bitmap guid="guidImages3" href="Resources\UploadFile.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
+      <Bitmap guid="guidImages4" href="Resources\DownloadFile.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
     </Bitmaps>
   </Commands>
 
