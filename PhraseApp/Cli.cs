@@ -50,6 +50,11 @@ namespace PhraseApp
 
         public String Exec(String action)
         {
+            if(!File.Exists(this.CliToolPath))
+            {
+                MessageBox.Show("PhraseApp CLI client path not configured (see Tools > Options > PhraseApp)");
+                return "";
+            }
 
             if(!this.ConfigFileExists())
             {
