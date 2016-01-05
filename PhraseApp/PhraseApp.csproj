@@ -52,7 +52,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Cli.cs" />
-    <Compile Include="DownloadFile.cs" />
     <Compile Include="Options.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -61,7 +60,6 @@
     <Compile Include="PullCommand.cs" />
     <Compile Include="PushCommand.cs" />
     <Compile Include="TranslationCenterCommand.cs" />
-    <Compile Include="UploadFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

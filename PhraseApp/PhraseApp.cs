@@ -74,8 +74,6 @@ namespace PhraseApp
             PullCommand.Initialize(this);
             PushCommand.Initialize(this);
             TranslationCenterCommand.Initialize(this);
-            UploadFile.Initialize(this);
-            DownloadFile.Initialize(this);
         }
 
         #endregion

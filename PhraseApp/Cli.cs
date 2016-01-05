@@ -33,28 +33,9 @@ namespace PhraseApp
             return File.Exists(this.ConfigFilePath());
         }
 
-        public String ProjectIdFromConfig()
-        {
-            String config = File.ReadAllText(this.ConfigFilePath());
-            Regex r = new Regex("project_id: (\\w+)");
-            Match m = r.Match(config);
-            return m.Groups[1].Captures[0].Value.ToString();
-        }
-
         public void Info()
         {
             this.Exec("info");
-        }
-
-        public void LocaleUpload(String filePath, String localeCode)
-        {
-            this.Exec("upload create " + this.ProjectIdFromConfig() + " --file-format windows8_resource --file " + filePath + " --locale-id " + localeCode);
-        }
-
-        public void LocaleDownload(String filePath, String localeCode)
-        {
-            String fileContent = this.Exec("locale download " + this.ProjectIdFromConfig() + " " + localeCode + " --file-format windows8_resource");
-            File.WriteAllText(filePath, fileContent);
         }
 
         public void Push()
