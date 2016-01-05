@@ -96,7 +96,7 @@ namespace PhraseApp
         {
             DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
             String solutionDir = System.IO.Path.GetDirectoryName(dte.Solution.FullName);
-            var opts = this.package.GetDialogPage(typeof(CliToolOtions)) as CliToolOtions;
+            var opts = this.package.GetDialogPage(typeof(CliToolOptions)) as CliToolOptions;
 
             Cli cli = new Cli(opts.CliToolPath, solutionDir);
             cli.Push();

@@ -73,7 +73,7 @@ namespace PhraseApp
 
     }
 
-    public class CliToolOtions : DialogPage
+    public class CliToolOptions : DialogPage
     {
         String cliToolPath = "";
 

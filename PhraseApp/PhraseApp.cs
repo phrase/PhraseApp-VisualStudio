@@ -41,7 +41,7 @@ namespace PhraseApp
     [Guid(PhraseApp.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideOptionPage(typeof(ConfigFileOptions), "PhraseApp", "Configuration File", 0, 0, true)]
-    [ProvideOptionPage(typeof(CliToolOtions), "PhraseApp", "CLI Tool Settings", 0, 0, true)]
+    [ProvideOptionPage(typeof(CliToolOptions), "PhraseApp", "CLI Tool Settings", 0, 0, true)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class PhraseApp : Package
     {
