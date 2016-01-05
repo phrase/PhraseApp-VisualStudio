@@ -73,6 +73,7 @@ namespace PhraseApp
             if(!this.ConfigFileExists())
             {
                 MessageBox.Show("Could not find a .phraseapp.yml configuration file");
+                return "";
             }
 
             String dir = Path.GetFileName(this.solutionDir);
