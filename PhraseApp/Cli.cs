@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using System.Text.RegularExpressions;
 
 namespace PhraseApp
 {
@@ -25,7 +20,7 @@ namespace PhraseApp
 
         public String ConfigFilePath()
         {
-            return this.solutionDir + "/" + Path.GetFileName(this.solutionDir) + "/.phraseapp.yml";
+            return solutionDir + "/" + Path.GetFileName(solutionDir) + "/.phraseapp.yml";
         }
 
         public Boolean ConfigFileExists()
@@ -35,38 +30,38 @@ namespace PhraseApp
 
         public void Info()
         {
-            this.Exec("info");
+            Exec("info");
         }
 
         public void Push()
         {
-            this.Exec("push");
+            Exec("push");
         }
 
         public void Pull()
         {
-            this.Exec("pull");
+            Exec("pull");
         }
 
         public String Exec(String action)
         {
-            if(!File.Exists(this.CliToolPath))
+            if (!File.Exists(CliToolPath))
             {
                 MessageBox.Show("PhraseApp CLI client path not configured (see Tools > Options > PhraseApp)");
                 return "";
             }
 
-            if(!this.ConfigFileExists())
+            if (!this.ConfigFileExists())
             {
                 MessageBox.Show("Could not find a .phraseapp.yml configuration file");
                 return "";
             }
 
-            String dir = Path.GetFileName(this.solutionDir);
+            String dir = Path.GetFileName(solutionDir);
             Process process = new Process();
-            process.StartInfo.FileName = this.CliToolPath;
+            process.StartInfo.FileName = CliToolPath;
             process.StartInfo.Arguments = action;
-            process.StartInfo.WorkingDirectory = this.solutionDir+"/"+dir;
+            process.StartInfo.WorkingDirectory = this.solutionDir + "/" + dir;
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
@@ -77,20 +72,19 @@ namespace PhraseApp
             string err = process.StandardError.ReadToEnd();
             process.WaitForExit();
 
-            if(err != ""){
+            if (err != "")
+            {
                 output = err;
             }
 
             var outputWindow = Package.GetGlobalService(typeof(SVsOutputWindow)) as IVsOutputWindow;
             var paneGuid = Microsoft.VisualStudio.VSConstants.OutputWindowPaneGuid.GeneralPane_guid;
-            IVsOutputWindowPane pane;
             outputWindow.CreatePane(paneGuid, "PhraseApp", 1, 0);
-            outputWindow.GetPane(paneGuid, out pane);
+            outputWindow.GetPane(paneGuid, out IVsOutputWindowPane pane);
             pane.OutputString(output);
 
             return output;
 
         }
-
     }
 }
