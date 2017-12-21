@@ -6,9 +6,7 @@
 
 using System;
 using System.ComponentModel.Design;
-using System.Globalization;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 
 namespace PhraseApp
 {
@@ -39,15 +37,9 @@ namespace PhraseApp
         /// <param name="package">Owner package, not null.</param>
         private TranslationCenterCommand(Package package)
         {
-            if (package == null)
-            {
-                throw new ArgumentNullException("package");
-            }
+            this.package = package ?? throw new ArgumentNullException("package");
 
-            this.package = package;
-
-            OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if (commandService != null)
+            if (ServiceProvider.GetService(typeof(IMenuCommandService)) is OleMenuCommandService commandService)
             {
                 var menuCommandID = new CommandID(CommandSet, CommandId);
                 var menuItem = new MenuCommand(this.MenuItemCallback, menuCommandID);
@@ -71,7 +63,7 @@ namespace PhraseApp
         {
             get
             {
-                return this.package;
+                return package;
             }
         }
 
