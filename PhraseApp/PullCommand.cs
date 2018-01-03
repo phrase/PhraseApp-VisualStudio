@@ -6,10 +6,9 @@
 
 using System;
 using System.ComponentModel.Design;
-using System.Globalization;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using EnvDTE;
+using System.Windows.Forms;
 
 namespace PhraseApp
 {
@@ -97,11 +96,20 @@ namespace PhraseApp
         private void MenuItemCallback(object sender, EventArgs e)
         {
             DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
-            String solutionDir = System.IO.Path.GetDirectoryName(dte.Solution.FullName);
-            var opts = this.package.GetDialogPage(typeof(CliToolOptions)) as CliToolOptions;
 
-            Cli cli = new Cli(opts.CliToolPath, solutionDir);
-            cli.Pull();
+            try
+            {
+                String solutionDir = System.IO.Path.GetDirectoryName(dte.Solution.FullName);
+                var opts = package.GetDialogPage(typeof(CliToolOptions)) as CliToolOptions;
+
+                Cli cli = new Cli(opts.CliToolPath, solutionDir);
+                cli.Pull();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please open a project to pull translation files");
+                return;
+            }
         }
     }
 }
