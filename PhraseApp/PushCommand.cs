@@ -88,6 +88,13 @@ namespace PhraseApp
         private void MenuItemCallback(object sender, EventArgs e)
         {
             DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
+            String solutionName = dte.Solution.FullName;
+            if (dte.Solution.FullName == "")
+            {
+                MessageBox.Show("It looks like no project is open. Please open a project to push translation files");
+                return;
+            }
+
             try
             {
                 String solutionDir = System.IO.Path.GetDirectoryName(dte.Solution.FullName);
@@ -96,10 +103,12 @@ namespace PhraseApp
                 Cli cli = new Cli(opts.CliToolPath, solutionDir);
                 cli.Push();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                MessageBox.Show("Please open a project to push translation files");
-                return;
+                if (exception.Source != null)
+                {
+                    Console.WriteLine("Error pulling translations: {0}", exception.Source);
+                }
             }
         }
     }
