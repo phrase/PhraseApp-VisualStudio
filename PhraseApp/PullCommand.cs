@@ -6,10 +6,9 @@
 
 using System;
 using System.ComponentModel.Design;
-using System.Globalization;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using EnvDTE;
+using System.Windows.Forms;
 
 namespace PhraseApp
 {
@@ -40,18 +39,12 @@ namespace PhraseApp
         /// <param name="package">Owner package, not null.</param>
         private PullCommand(Package package)
         {
-            if (package == null)
-            {
-                throw new ArgumentNullException("package");
-            }
+            this.package = package ?? throw new ArgumentNullException("package");
 
-            this.package = package;
-
-            OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if (commandService != null)
+            if (ServiceProvider.GetService(typeof(IMenuCommandService)) is OleMenuCommandService commandService)
             {
                 var menuCommandID = new CommandID(CommandSet, CommandId);
-                var menuItem = new OleMenuCommand(this.MenuItemCallback, menuCommandID);
+                var menuItem = new OleMenuCommand(MenuItemCallback, menuCommandID);
                 menuItem.BeforeQueryStatus += menuItemBefore_QueryStatus;
                 commandService.AddCommand(menuItem);
             }
@@ -80,7 +73,7 @@ namespace PhraseApp
         {
             get
             {
-                return this.package;
+                return package;
             }
         }
 
@@ -103,11 +96,28 @@ namespace PhraseApp
         private void MenuItemCallback(object sender, EventArgs e)
         {
             DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
-            String solutionDir = System.IO.Path.GetDirectoryName(dte.Solution.FullName);
-            var opts = this.package.GetDialogPage(typeof(CliToolOptions)) as CliToolOptions;
+            String solutionName = dte.Solution.FullName;
+            if (dte.Solution.FullName == "")
+            {
+                MessageBox.Show("It looks like no project is open. Please open a project to pull translation files");
+                return;
+            }
 
-            Cli cli = new Cli(opts.CliToolPath, solutionDir);
-            cli.Pull();
+            try
+            {
+                String solutionDir = System.IO.Path.GetDirectoryName(solutionName);
+                var opts = package.GetDialogPage(typeof(CliToolOptions)) as CliToolOptions;
+
+                Cli cli = new Cli(opts.CliToolPath, solutionDir);
+                cli.Pull();
+            }
+            catch (Exception exception)
+            {
+                if (exception.Source != null)
+                {
+                    Console.WriteLine("Error pulling translations: {0}", exception.Source);
+                }
+            }
         }
     }
 }

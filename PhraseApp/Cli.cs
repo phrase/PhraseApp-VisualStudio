@@ -51,7 +51,7 @@ namespace PhraseApp
                 return "";
             }
 
-            if (!this.ConfigFileExists())
+            if (!ConfigFileExists())
             {
                 MessageBox.Show("Could not find a .phraseapp.yml configuration file");
                 return "";
@@ -84,7 +84,6 @@ namespace PhraseApp
             pane.OutputString(output);
 
             return output;
-
         }
     }
 }
