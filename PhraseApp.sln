@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhraseApp", "PhraseApp\PhraseApp.csproj", "{6A24CC94-B239-4DD1-8149-F98EC8B1F14F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phrase", "Phrase\Phrase.csproj", "{6A24CC94-B239-4DD1-8149-F98EC8B1F14F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
